@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="15 seconds" debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{ISO8601}]-[%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="io.netty" level="INFO">
+        <!--<appender-ref ref="STDOUT"/>-->
+    </logger>
+    <logger name="org.jooby.spi.Server" level="INFO"></logger>
+
+    <logger name="jp.que.ti.divgroup.App" level="DEBUG"></logger>
+
+    <root level="DEBUGF">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

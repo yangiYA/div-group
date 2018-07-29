@@ -1,0 +1,127 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!--
+        <script src="http://code.jquery.com/jquery-2.2.4.js"
+                integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+                crossorigin="anonymous"></script>
+    -->
+    <script src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="/js/div-group.js"></script>
+</head>
+<body>
+
+<!--<div class="container-fluid">-->
+<div class="container">
+    <h1>Hello ${name}!</h1>
+
+    <form id="form_div">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group row">
+                    <label for="groupNumber" class="col-sm-4 col-form-label">グループ数</label>
+                    <div class="col-sm-8">
+                        <input id="groupNumber" type="number" min="1" class="form-control" placeholder="グループ数">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="dateTime" class="col-sm-4 col-form-label">日付</label>
+                    <div class="col-sm-8">
+                        <input id="dateTime" type="date" class="form-control" value="2018-01-01">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span>　　... 省略すると、毎回結果が変わります。</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-sm-8">
+                <div class="form-group row border border-top-0 border-bottom-0">
+                    <label for="items" class="col-sm-3 col-form-label">グループ化する要素</label>
+                    <textarea id="items" class="form-control col-sm-9" rows="7"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <input id="submitButton" type="button" class="btn btn-primary" value="実 　 行" onclick="fire">
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="row">
+        <ol id="result_div">
+            <li>aa</li>
+        </ol>
+    </div>
+
+
+</div>
+
+<script>
+{  var fire = function(event) {
+    $("#submitButton").prop("disabled", true);
+    var prm = toHashByIdTextareaAsArray("groupNumber","dateTime","items");
+
+    $.ajax({
+        type:"post"
+        ,url: "/dividegroup/json"
+        ,data:JSON.stringify(prm)
+        ,contentType: 'application/json'
+        ,dataType: "json"
+        ,success: function(json, status, xhr) { // http status 200
+            if (json && Array.isArray(json)){
+            }else{
+                replaceInnerHtml("result_div" ,"NO DATA");
+            }
+
+            replaceInnerHtml("result_div" ,renderJson(json));
+            // alert("successed!");
+        }
+        ,error: function( jqXHR, textStatus, errorThrown ) { // http status Error
+          if (400 <= jqXHR.status && jqXHR.status < 500){
+            replaceInnerHtml("result_div" ,"Parmeter error<br>\n" + errorThrown + " <br>\n" + textStatus);
+          }else{
+            replaceInnerHtml("result_div" ,"Server error!");
+          }
+          // alert("Server Error response.");
+        }
+        ,complete: function() { // finally
+          $("#submitButton").prop("disabled", false);
+        }
+    });
+   // alert("fire ended! event ="+event);
+}}
+
+var replaceInnerHtml = function(id , htmlValue){
+  document.getElementById(id).innerHTML = htmlValue;
+}
+
+var renderJson = (json) => { return json.map(x => "<li>" + renderGroupItems(x) + "</li>").join("") ; };
+
+/* return like  "Jhon , Marry , Tom" */
+var renderGroupItems = (items) => { return items.join(" , "); };
+
+$(function(){
+  // console.log("event add!");
+  addEventById("submitButton", "click" , fire );
+});
+
+</script>
+</body>
+</html>
