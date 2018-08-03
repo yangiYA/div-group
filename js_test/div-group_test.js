@@ -15,7 +15,7 @@ describe('div-group.js test', function() {
 
   describe('Test : #textarea2ArrayById()', function() {
     it('when textarea id ,it should return array', function() {
-      console.log("*****textarea2ArrayById")
+      console.log("*****textarea2ArrayById");
       var tarea = textarea2ArrayById("textarea1");
       console.log("textarea2ArrayById return = " + tarea);
 
@@ -46,7 +46,7 @@ describe('div-group.js test', function() {
   describe('Test : #toHashById()', function() {
     var rtn = toHashById("text1","text2","text3","text4");
     it('should return Hash', function() {
-      console.log("*****toHashById")
+      console.log("*****toHashById");
       console.log("toHashById return = " + rtn)
       var expected = { text1 : "text1" , text2 : "text2" , text3 : "text3" ,text4 : "text4" };
       assert.equal(Object.keys(rtn).length ,Object.keys(expected).length);
@@ -60,7 +60,7 @@ describe('div-group.js test', function() {
   describe('Test : #toHashByIdTextareaAsArray()', function() {
     var rtn0 = toHashByIdTextareaAsArray("text1","text2","text3","text4");
     it('When No textarea, should return Hash', function() {
-      console.log("*****toHashByIdTextareaAsArray_1")
+      console.log("*****toHashByIdTextareaAsArray_1");
       console.log("toHashByIdTextareaAsArray return = " + rtn0)
       var expected = { text1 : "text1" , text2 : "text2" , text3 : "text3" ,text4 : "text4" };
       assert.equal(Object.keys(rtn0).length ,Object.keys(expected).length);
@@ -72,8 +72,8 @@ describe('div-group.js test', function() {
 
     rtn1 = toHashByIdTextareaAsArray("text1","textarea1");
     it('When it contains textarea, should return Hash that contains array.', function() {
-      console.log("*****toHashByIdTextareaAsArray_2")
-      console.log("toHashByIdTextareaAsArray_2 return = " + rtn1)
+      console.log("*****toHashByIdTextareaAsArray_2");
+      console.log("toHashByIdTextareaAsArray_2 return = " + rtn1);
       var expected = { text1 : "text1" , text2 : "textarea1" };
       assert.equal(Object.keys(rtn1).length ,Object.keys(expected).length);
 
@@ -97,52 +97,106 @@ describe('div-group.js test', function() {
                          , b1_2 : {b1_2_1 : "b1_2_1" }} };
     it('"a1" should return value', function() {
       var rtn = getByJsonPath(hash0 , "a1");
-      console.log("a1 = " + rtn)
+      console.log("a1 = " + rtn);
       assert.equal(rtn ,"a1");
     });
 
     it('"arry1.0" should return value', function() {
       var rtn = getByJsonPath(hash0 , "arry1.0");
-      console.log("arry1.0 = " + rtn)
+      console.log("arry1.0 = " + rtn);
       assert.equal(rtn ,"arry1_0");
     });
 
     it('"arry1" should return Array', function() {
       var rtn = getByJsonPath(hash0 , "arry1");
-      console.log("arry1 = " + rtn)
+      console.log("arry1 = " + rtn);
       assert.equal(Array.isArray(rtn) ,true);
     });
 
     it('"arry1.1" should return value', function() {
       var rtn = getByJsonPath(hash0 , "arry1.1");
-      console.log("arry1.1 = " + rtn)
+      console.log("arry1.1 = " + rtn);
       assert.equal(rtn ,"arry1_1");
     });
 
     it('"b1.b1_2.b1_2_1" should return value', function() {
       var rtn = getByJsonPath(hash0 , "b1.b1_2.b1_2_1");
-      console.log("b1.b1_2.b1_2_1 = " + rtn)
+      console.log("b1.b1_2.b1_2_1 = " + rtn);
       assert.equal(rtn ,"b1_2_1");
     });
 
     it('"nodata" should return undefined', function() {
       var rtn = getByJsonPath(hash0 , "nodata");
-      console.log("nodata = " + rtn)
+      console.log("nodata = " + rtn);
       assert.equal(rtn ,undefined);
     });
 
     it('"arry1.99" should return undefined', function() {
       var rtn = getByJsonPath(hash0 , "arry1.99");
-      console.log("arry1.99 = " + rtn)
+      console.log("arry1.99 = " + rtn);
       assert.equal(rtn ,undefined);
     });
 
     it('"b1.b1_2.nodata" should return undefined', function() {
       var rtn = getByJsonPath(hash0 , "b1.b1_2.nodata");
-      console.log("b1.b1_2.nodata = " + rtn)
+      console.log("b1.b1_2.nodata = " + rtn);
       assert.equal(rtn ,undefined);
     });
 
   });
+
+  describe('Test : #saveCookieByIdList()', function() {
+
+    deleteCookiesCurrentPass( "text1","text2","text3","text4");
+
+    it('should saved in cookie.', function() {
+      saveCookieByIdList( 30 ,"text1","text2","text3","text4");
+      var cookieStr = JSON.stringify(Cookies.get());
+      console.log("* #saveCookieByIdList cookie: " + cookieStr );
+      console.log("*** cookie text1: " + Cookies.get('text1') );
+
+      assert.equal(Cookies.get('text1') , "text1" , "key=" + "text1");
+      assert.equal(Cookies.get('text2') , "text2" , "key=" + "text2");
+      assert.equal(Cookies.get('text3') , "text3" , "key=" + "text3");
+      assert.equal(Cookies.get('text4') , "text4" , "key=" + "text4");
+    });
+
+
+    it('After #deleteCookiesCurrentPass, cookie is deleted.', function() {
+      saveCookieByIdList( 30 ,"text1","text2","text3","text4");
+      deleteCookiesCurrentPass( "text1","text2","text3","text4");
+      assert.equal(Cookies.get('text1') , undefined , "key=" + "text1");
+      assert.equal(Cookies.get('text2') , undefined , "key=" + "text2");
+      assert.equal(Cookies.get('text3') , undefined , "key=" + "text3");
+      assert.equal(Cookies.get('text4') , undefined , "key=" + "text4");
+    });
+
+  });
+
+  describe('Test : #cookieGetOrEmpty()', function() {
+
+    it('should get saved cookie value.', function() {
+      saveCookieByIdList( 30 ,"text1","text2","text3","text4");
+
+      assert.equal(cookieGetOrEmpty('text1') , "text1" , "key=" + "text1");
+      assert.equal(cookieGetOrEmpty('text2') , "text2" , "key=" + "text2");
+      assert.equal(cookieGetOrEmpty('text3') , "text3" , "key=" + "text3");
+      assert.equal(cookieGetOrEmpty('text4') , "text4" , "key=" + "text4");
+
+      assert.equal(cookieGetOrEmpty('nodata') , "" , "key=" + "nodata");
+
+      deleteCookiesCurrentPass( "text1","text2","text3","text4");
+    });
+    it('should get empty-string ,if cookie is not saved.', function() {
+      deleteCookiesCurrentPass( "text1","text2","text3","text4");
+
+      assert.equal(cookieGetOrEmpty('text1') , "" , "key=" + "nodata");
+      assert.equal(cookieGetOrEmpty('nodata') , "" , "key=" + "nodata");
+
+    });
+
+
+  });
+
 
 });

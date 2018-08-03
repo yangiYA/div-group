@@ -1,17 +1,3 @@
-/*
-function toJsonString() { // Variable parameter
-  var delimiter = "";
-  var tmp = "";
-  for (var i = 0; i < arguments.length; i++) {
-    var value = $('#'+ arguments[i]).val();
-    tmp = tmp + delimiter + `${arguments[i]} : "${value}"`;
-    delimiter = ",";
-  }
-  var rtn = "{ "+ tmp + " }";
-  return rtn;
-}
-*/
-
 function toHashById() { // Variable parameter
   var delimiter = "";
   var tmp = {};
@@ -49,21 +35,6 @@ function toHashByIdTextareaAsArray() { // Variable parameter
   return tmp;
 }
 
-
-/*
-function toJsonString() { // Variable parameter
-  var delimiter = "";
-  var tmp = "";
-  for (var i = 0; i < arguments.length; i++) {
-    var value = $('#'+ arguments[i]).val();
-    tmp = tmp + delimiter + `${arguments[i]} : "${value}"`;
-    delimiter = ",";
-  }
-  var rtn = "{ "+ tmp + " }";
-  return rtn;
-}
-*/
-
 var addEventById = function(id , eventName , fun){
   document.getElementById(id).addEventListener(eventName,fun ,false);
 };
@@ -90,19 +61,6 @@ function lines2Array(stringLines,needEmptyString){
   }
 }
 
-/*
-function stringArray2jsonArray(stringArray){
-  console.log(stringArray);
-
-  if (Array.isArray(stringArray) == false){
-    throw new TypeError("parameter is no Array. param=" + stringArray );
-  }
-  var tmp = stringArray.map(x => '"' + x + '"').join(",");
-  var rtn = "{ "+ tmp + " }";
-  return rtn;
-}
-*/
-
 function getByJsonPath(data, path) {
   var val = data;
   var segments = path.split('.');
@@ -119,4 +77,43 @@ function getByJsonPath(data, path) {
     }
   }
   return val;
+}
+
+function curry(f){
+    return function _curry(xs){
+        return xs.length < f.length ? function(x){ return _curry(xs.concat([x])); } : f.apply(undefined, xs);
+    }([]);
+}
+
+/*
+ * arg0      : expires
+ * arg1,2.3. : id list
+ * @see : js-cookie : https://github.com/js-cookie/js-cookie
+ */
+function saveCookieByIdList() { // Variable parameter
+  var exp = arguments[0];
+  // console.log("*********** saveCookieByIdList fn="+fn);
+  for (var i = 1; i < arguments.length; i++) {
+    var id = arguments[i];
+    // console.log("pathname="+location.pathname);
+    Cookies.set(id, $('#' + id ).val() , { expires: exp , path: location.pathname });
+  }
+}
+
+/*
+ * arg0,1,2.3 ... : cookie name list
+ */
+function deleteCookiesCurrentPass() { // Variable parameter
+  for (var i = 0; i < arguments.length; i++) {
+    Cookies.remove(arguments[i] , { path: location.pathname });
+  }
+}
+
+function cookieGetOrEmpty(id){
+  var tmp = Cookies.get(id)
+  if (typeof tmp === "undefined") {
+    return "";
+  }else{
+    return tmp;
+  }
 }

@@ -6,6 +6,7 @@ import org.jooby.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.jooby.ftl.Ftl
+import java.nio.file.Paths
 
 
 /**
@@ -13,7 +14,16 @@ import org.jooby.ftl.Ftl
  */
 class App : Kooby({
 
+
+    /***************************
+     * using Modules
+     ***************************/
     use(Ftl())
+
+    /***************************
+     * Session : use cookie implementation
+     ***************************/
+    cookieSession();
 
     /***************************
      * Static files (in public directory)
@@ -21,6 +31,10 @@ class App : Kooby({
     assets("/js/**")
     assets("/css/**")
 
+    /***************************
+     * for Javascript unitTest Directory
+     ***************************/
+    assets("/js_test/**", Paths.get("js_test/"))
     /*** in classpath case ***/
     //assets("/**", "assets/{0}");
 
@@ -43,7 +57,7 @@ class App : Kooby({
      * Rooting
      ***************************/
     get("/") { req ->
-        req.set("name", req.param("name").value("Kooby"))
+        req.set("name", req.param("name").value("グループ分け"))
         Results.html("freemarker/index")
     }
 

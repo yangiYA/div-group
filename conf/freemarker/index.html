@@ -16,6 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
     <script type="text/javascript" src="/js/div-group.js"></script>
 </head>
@@ -66,7 +67,8 @@
     <hr>
     <div class="row">
         <ol id="result_div">
-            <li>aa</li>
+          Result area.
+            <!-- <li>aa</li> -->
         </ol>
     </div>
 
@@ -74,9 +76,11 @@
 </div>
 
 <script>
-{  var fire = function(event) {
+var fire = function(event) {
     $("#submitButton").prop("disabled", true);
     var prm = toHashByIdTextareaAsArray("groupNumber","dateTime","items");
+
+    saveCookieByIdList( 30 ,"groupNumber","dateTime","items");
 
     $.ajax({
         type:"post"
@@ -106,7 +110,7 @@
         }
     });
    // alert("fire ended! event ="+event);
-}}
+}
 
 var replaceInnerHtml = function(id , htmlValue){
   document.getElementById(id).innerHTML = htmlValue;
@@ -120,6 +124,12 @@ var renderGroupItems = (items) => { return items.join(" , "); };
 $(function(){
   // console.log("event add!");
   addEventById("submitButton", "click" , fire );
+
+    $('#groupNumber').val(cookieGetOrEmpty("groupNumber"));
+    $('#dateTime').val(cookieGetOrEmpty("dateTime"));
+    $('#items').val(cookieGetOrEmpty("items"));
+
+    console.log("* #saveCookieByIdList cookie: " + JSON.stringify(Cookies.get()) );
 });
 
 </script>
