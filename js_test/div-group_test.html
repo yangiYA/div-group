@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+    <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.0.0/chai.min.js"></script>
+<!--
+ -->
+
+<script src="/js/div-group.js"></script>
+
+</head>
+<body>
+  <div id="mocha"></div>
+
+  <input id="text1" type="text" placeholder="text1" value="text1"><br>
+  <input id="text2" type="text" placeholder="text2" value="text2"><br>
+  <input id="text3" type="text" placeholder="text3" value="text3"><br>
+  <input id="text4" type="text" placeholder="text4" value="text4"><br>
+
+<textarea id="textarea1" placeholder="textarea1" rows="6">
+textarea1-1
+
+textarea1-2
+
+textarea1-3
+</textarea>
+
+
+  <script>mocha.setup('bdd')</script>
+  <script src="div-group_test.js"></script>
+
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
+</body>
+</html>
