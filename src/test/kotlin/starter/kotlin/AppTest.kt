@@ -40,7 +40,7 @@ object AppTest : Spek({
                             .assertThat().statusCode(Status.OK.value())
                             .extract().asString()
                             .let {
-                                Assertions.assertThat(it).contains("Hello Kooby!")
+                                Assertions.assertThat(it).contains("Hello グループ分け!")
                             }
                 }
             }
