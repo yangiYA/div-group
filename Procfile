@@ -1,1 +1,1 @@
-web: java -jar target/div-group.jar port=80
+web: java -jar target/div-group.jar port=$PORT
