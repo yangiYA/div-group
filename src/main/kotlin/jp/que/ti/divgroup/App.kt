@@ -30,6 +30,7 @@ class App : Kooby({
      ***************************/
     assets("/js/**")
     assets("/css/**")
+    assets("/img/**")
 
     /***************************
      * for Javascript unitTest Directory

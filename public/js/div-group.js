@@ -117,3 +117,10 @@ function cookieGetOrEmpty(id){
     return tmp;
   }
 }
+
+function addLoadImg(){
+  document.body.insertAdjacentHTML('beforeend','<div id="loadContainer"><div class="loadimg"><img src="/img/load.gif" width="200" height="200"><div></div>');
+}
+
+function loadingOn() { $("#loadContainer").fadeIn(400); }
+function loadingOff(){ $("#loadContainer").fadeOut(100); }

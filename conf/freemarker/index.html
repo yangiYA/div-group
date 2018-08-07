@@ -1,7 +1,8 @@
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+        integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/cmn.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
@@ -72,6 +73,7 @@
 
 <script>
 var fire = function(event) {
+    loadingOn();
     $("#submitButton").prop("disabled", true);
     var prm = toHashByIdTextareaAsArray("groupNumber","dateTime","items");
 
@@ -105,6 +107,7 @@ var fire = function(event) {
         }
     });
    // alert("fire ended! event ="+event);
+   loadingOff();
 }
 
 var replaceInnerHtml = function(id , htmlValue){
@@ -116,6 +119,7 @@ var renderJson = (json) => { return json.map(x => "<li>" + renderGroupItems(x) +
 /* return like  "Jhon , Marry , Tom" */
 var renderGroupItems = (items) => { return items.join(" , "); };
 
+
 $(function(){
   // console.log("event add!");
   addEventById("submitButton", "click" , fire );
@@ -125,6 +129,10 @@ $(function(){
     $('#items').val(cookieGetOrEmpty("items"));
 
     console.log("* #saveCookieByIdList cookie: " + JSON.stringify(Cookies.get()) );
+});
+
+$(function(){
+  addLoadImg();
 });
 
 </script>
